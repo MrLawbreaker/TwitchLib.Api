@@ -37,7 +37,9 @@ public class Games : ApiBase
     /// <exception cref="BadParameterException"></exception>
     public Task<GetGamesResponse> GetGamesAsync(List<string> gameIds = null, List<string> gameNames = null, List<string> igdbIds = null, string accessToken = null)
     {
-        var totalCount = (gameIds?.Count + gameNames?.Count + igdbIds?.Count).GetValueOrDefault();
+        var totalCount = gameIds?.Count ?? 0
+            + gameNames?.Count ?? 0
+            + igdbIds?.Count ?? 0;
         if (totalCount is 0)
             throw new BadParameterException("Either gameIds, gameNames or igdbIds must have at least one value");
         if (totalCount > 100)
